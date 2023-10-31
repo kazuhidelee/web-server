@@ -1,0 +1,51 @@
+HTTP/1.1 201 Created
+Content-Type: application/json; charset=utf-8
+Content-Length: 77
+
+{
+    "location": "Table 3",
+    "position": 1,
+    "uniqname": "awdeorio"
+}
+HTTP/1.1 201 Created
+Content-Type: application/json; charset=utf-8
+Content-Length: 76
+
+{
+    "location": "Table 15",
+    "position": 2,
+    "uniqname": "akamil"
+}
+HTTP/1.1 201 Created
+Content-Type: application/json; charset=utf-8
+Content-Length: 94
+
+{
+    "location": "Desks behind bookshelves",
+    "position": 3,
+    "uniqname": "jklooste"
+}
+HTTP/1.1 200 OK
+Content-Type: application/json; charset=utf-8
+Content-Length: 412
+
+{
+    "count": 3,
+    "results": [
+        {
+            "location": "Table 3",
+            "position": 1,
+            "uniqname": "awdeorio"
+        },
+        {
+            "location": "Table 15",
+            "position": 2,
+            "uniqname": "akamil"
+        },
+        {
+            "location": "Desks behind bookshelves",
+            "position": 3,
+            "uniqname": "jklooste"
+        }
+    ]
+}

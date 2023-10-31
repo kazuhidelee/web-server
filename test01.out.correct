@@ -1,0 +1,9 @@
+HTTP/1.1 200 OK
+Content-Type: application/json; charset=utf-8
+Content-Length: 160
+
+{
+    "queue_head_url": "http://localhost/queue/head/",
+    "queue_list_url": "http://localhost/queue/",
+    "queue_tail_url": "http://localhost/queue/tail/"
+}

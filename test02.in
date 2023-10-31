@@ -1,0 +1,32 @@
+POST /api/queue/tail/ HTTP/1.1
+Host: localhost
+Content-Type: application/json; charset=utf-8
+Content-Length: 58
+
+{
+    "uniqname": "awdeorio",
+    "location": "Table 3"
+}
+POST /api/queue/tail/ HTTP/1.1
+Host: localhost
+Content-Type: application/json; charset=utf-8
+Content-Length: 57
+
+{
+    "uniqname": "akamil",
+    "location": "Table 15"
+}
+POST /api/queue/tail/ HTTP/1.1
+Host: localhost
+Content-Type: application/json; charset=utf-8
+Content-Length: 75
+
+{
+    "uniqname": "jklooste",
+    "location": "Desks behind bookshelves"
+}
+GET /api/queue/ HTTP/1.1
+Host: localhost
+Content-Type: application/json; charset=utf-8
+Content-Length: 0
+

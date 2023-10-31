@@ -1,0 +1,14 @@
+POST /api/queue/tail/ HTTP/1.1
+Host: localhost
+Content-Type: application/json; charset=utf-8
+Content-Length: 58
+
+{
+    "uniqname": "jackgood",
+    "location": "Table 5"
+}
+DELETE /api/queue/head/ HTTP/1.1
+Host: localhost
+Content-Type: application/json; charset=utf-8
+Content-Length: 0
+
