@@ -21,8 +21,26 @@ class List
 
   // OVERVIEW: a doubly-linked, double-ended list with Iterator interface
 public:
+  // default constructor
   List()
       : next(nullptr), prev(nullptr), datum(0), size(0) {}
+
+  // copy constructor
+  List(const List<T> &other)
+  {
+    copy_all(other);
+  }
+
+  // destructor
+  ~List()
+  {
+    clear();
+  }
+  // assignment
+  Iterator &operator=(const List<T> &other)
+  {
+    copy_all(other);
+  }
 
   // EFFECTS:  returns true if the list is empty
   bool empty() const
@@ -120,6 +138,7 @@ public:
 
 private:
   // a private type
+
   struct Node
   {
     Node *next;
@@ -132,14 +151,10 @@ private:
   void copy_all(const List<T> &other)
   {
     assert(!(other.empty()));
-    while (next != nullptr)
+    for (Node *np = other.first; np; np = np->next)
     {
-      Node *p = new Node;
-      first->datum = this->datum;
-      first->next = this->next;
-      first->prev = this->prev;
-      // fix::
-        }
+      push_back(np->datum);
+    }
   }
 
   Node *first; // points to first Node in list, or nullptr if list is empty
