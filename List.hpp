@@ -19,40 +19,95 @@ public:
   bool empty() const
   {
     return first == nullptr;
-  };
+  }
 
   // EFFECTS: returns the number of elements in this List
   // HINT:    Traversing a list is really slow.  Instead, keep track of the size
   //          with a private member variable.  That's how std::list does it.
-  int size() const;
+  int size() const
+  {
+    return size;
+  }
 
   // REQUIRES: list is not empty
   // EFFECTS: Returns the first element in the list by reference
-  T &front();
+  T &front()
+  {
+    assert(!empty());
+    return first->datum;
+  }
 
   // REQUIRES: list is not empty
   // EFFECTS: Returns the last element in the list by reference
-  T &back();
+  T &back()
+  {
+    assert(!empty());
+    return last->datum;
+  }
 
   // EFFECTS:  inserts datum into the front of the list
-  void push_front(const T &datum);
+  void push_front(const T &datum)
+  {
+    Node *p = new Node;
+    p->datum = datum;
+    p->next = first;
+    p->prev = nullptr;
+    first->prev = p;
+    first = p;
+
+    size += 1;
+  }
 
   // EFFECTS:  inserts datum into the back of the list
-  void push_back(const T &datum);
+  void push_back(const T &datum)
+  {
+    Node *p = new Node;
+    p->datum = datum;
+    p->prev = last;
+    p->next = nullptr;
+    last->next = p;
+    last = p;
+
+    size += 1;
+  }
 
   // REQUIRES: list is not empty
   // MODIFIES: may invalidate list iterators
   // EFFECTS:  removes the item at the front of the list
-  void pop_front();
+  void pop_front()
+  {
+    assert(!empty());
+    Node *victim = first;
+    first = first->next;
+    first->prev = nullptr;
+    delete victim;
+
+    size -= 1;
+  }
 
   // REQUIRES: list is not empty
   // MODIFIES: may invalidate list iterators
   // EFFECTS:  removes the item at the back of the list
-  void pop_back();
+  void pop_back()
+  {
+    assert(!empty());
+    Node *victim = last;
+    last = last->prev;
+    last->next = nullptr;
+    delete victim;
+
+    size -= 1;
+  }
 
   // MODIFIES: may invalidate list iterators
   // EFFECTS:  removes all items from the list
-  void clear();
+  void clear()
+  {
+    while (!empty())
+    {
+      pop_front();
+    }
+  }
 
   // You should add in a default constructor, destructor, copy constructor,
   // and overloaded assignment operator, if appropriate. If these operations
@@ -74,6 +129,7 @@ private:
 
   Node *first; // points to first Node in list, or nullptr if list is empty
   Node *last;  // points to last Node in list, or nullptr if list is empty
+  int size = 0;
 
 public:
   ////////////////////////////////////////
