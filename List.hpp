@@ -10,11 +10,20 @@
 #include <cassert> //assert
 #include <cstddef> //NULL
 
+// You should add in a default constructor, destructor, copy constructor,
+// and overloaded assignment operator, if appropriate. If these operations
+// will work correctly without defining these, you can omit them. A user
+// of the class must be able to create, copy, assign, and destroy Lists
+
 template <typename T>
 class List
 {
+
   // OVERVIEW: a doubly-linked, double-ended list with Iterator interface
 public:
+  List()
+      : next(nullptr), prev(nullptr), datum(0), size(0) {}
+
   // EFFECTS:  returns true if the list is empty
   bool empty() const
   {
@@ -109,11 +118,6 @@ public:
     }
   }
 
-  // You should add in a default constructor, destructor, copy constructor,
-  // and overloaded assignment operator, if appropriate. If these operations
-  // will work correctly without defining these, you can omit them. A user
-  // of the class must be able to create, copy, assign, and destroy Lists
-
 private:
   // a private type
   struct Node
@@ -125,7 +129,18 @@ private:
 
   // REQUIRES: list is empty
   // EFFECTS:  copies all nodes from other to this
-  void copy_all(const List<T> &other);
+  void copy_all(const List<T> &other)
+  {
+    assert(!(other.empty()));
+    while (next != nullptr)
+    {
+      Node *p = new Node;
+      first->datum = this->datum;
+      first->next = this->next;
+      first->prev = this->prev;
+      // fix::
+        }
+  }
 
   Node *first; // points to first Node in list, or nullptr if list is empty
   Node *last;  // points to last Node in list, or nullptr if list is empty
@@ -155,14 +170,40 @@ public:
       return *this;
     }
 
+    Iterator &operator++()
+    {
+      assert(node_ptr);
+      node_ptr = node_ptr->next;
+      return *this;
+    }
+
+    T &operator*() const
+    {
+      assert(node_ptr);
+      return node_ptr->datum;
+    }
+
+    bool operator==(Iterator i) const
+    {
+      return node_ptr == i.node_ptr;
+    }
+
+    bool operator!=(Iterator i) const
+    {
+      return !(node_ptr == i.node_ptr);
+    }
+
   private:
     Node *node_ptr; // current Iterator position is a List node
     // add any additional necessary member variables here
 
     // add any friend declarations here
-
+    friend class List;
     // construct an Iterator at a specific position
-    Iterator(Node *p);
+    Iterator(Node *p)
+        : node_ptr(p) {}
+    Iterator()
+        : node_ptr(nullptr) {}
 
   }; // List::Iterator
   ////////////////////////////////////////
@@ -174,16 +215,25 @@ public:
   }
 
   // return an Iterator pointing to "past the end"
-  Iterator end() const;
+  Iterator end() const
+  {
+    return Iterator(last->next);
+  }
 
   // REQUIRES: i is a valid, dereferenceable iterator associated with this list
   // MODIFIES: may invalidate other list iterators
   // EFFECTS: Removes a single element from the list container
-  void erase(Iterator i);
+  void erase(Iterator i)
+  {
+    delete i.node_ptr;
+  }
 
   // REQUIRES: i is a valid iterator associated with this list
   // EFFECTS: inserts datum before the element at the specified position.
-  void insert(Iterator i, const T &datum);
+  void insert(Iterator i, const T &datum)
+  {
+    (i.node_ptr)->push_front(datum);
+  }
 
 }; // List
 
