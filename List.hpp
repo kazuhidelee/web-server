@@ -23,7 +23,7 @@ class List
 public:
   // default constructor
   List()
-      : next(nullptr), prev(nullptr), datum(0), size(0) {}
+      : first(nullptr), last(nullptr), count(0) {}
 
   // copy constructor
   List(const List<T> &other)
@@ -37,7 +37,7 @@ public:
     clear();
   }
   // assignment
-  Iterator &operator=(const List<T> &other)
+  List &operator=(const List<T> &other)
   {
     copy_all(other);
   }
@@ -53,7 +53,7 @@ public:
   //          with a private member variable.  That's how std::list does it.
   int size() const
   {
-    return size;
+    return count;
   }
 
   // REQUIRES: list is not empty
@@ -79,10 +79,13 @@ public:
     p->datum = datum;
     p->next = first;
     p->prev = nullptr;
-    first->prev = p;
+    if (first != nullptr)
+    {
+      first->prev = p;
+    }
     first = p;
 
-    size += 1;
+    count += 1;
   }
 
   // EFFECTS:  inserts datum into the back of the list
@@ -95,7 +98,7 @@ public:
     last->next = p;
     last = p;
 
-    size += 1;
+    count += 1;
   }
 
   // REQUIRES: list is not empty
@@ -106,10 +109,13 @@ public:
     assert(!empty());
     Node *victim = first;
     first = first->next;
-    first->prev = nullptr;
+    if (first != nullptr)
+    {
+      first->prev = nullptr;
+    }
     delete victim;
 
-    size -= 1;
+    count -= 1;
   }
 
   // REQUIRES: list is not empty
@@ -123,7 +129,7 @@ public:
     last->next = nullptr;
     delete victim;
 
-    size -= 1;
+    count -= 1;
   }
 
   // MODIFIES: may invalidate list iterators
@@ -159,7 +165,7 @@ private:
 
   Node *first; // points to first Node in list, or nullptr if list is empty
   Node *last;  // points to last Node in list, or nullptr if list is empty
-  int size = 0;
+  int count;
 
 public:
   ////////////////////////////////////////
