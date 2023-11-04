@@ -28,6 +28,9 @@ public:
   // copy constructor
   List(const List<T> &other)
   {
+    first = nullptr;
+    last = nullptr;
+    count = 0;
     copy_all(other);
   }
 
@@ -39,7 +42,18 @@ public:
   // assignment
   List &operator=(const List<T> &other)
   {
+    if (this == &other)
+    {
+      return *this;
+    }
+    first = nullptr;
+    last = nullptr;
+    count = 0;
+
+    clear();
     copy_all(other);
+
+    return *this;
   }
 
   // EFFECTS:  returns true if the list is empty
@@ -84,6 +98,10 @@ public:
       first->prev = p;
     }
     first = p;
+    if (last == nullptr)
+    {
+      last = p;
+    }
 
     count += 1;
   }
@@ -95,8 +113,15 @@ public:
     p->datum = datum;
     p->prev = last;
     p->next = nullptr;
-    last->next = p;
+    if (last != nullptr)
+    {
+      last->next = p;
+    }
     last = p;
+    if (first == nullptr)
+    {
+      first = p;
+    }
 
     count += 1;
   }
@@ -113,6 +138,10 @@ public:
     {
       first->prev = nullptr;
     }
+    else
+    {
+      last = nullptr;
+    }
     delete victim;
 
     count -= 1;
@@ -126,7 +155,14 @@ public:
     assert(!empty());
     Node *victim = last;
     last = last->prev;
-    last->next = nullptr;
+    if (last != nullptr)
+    {
+      last->next = nullptr;
+    }
+    else
+    {
+      first = nullptr;
+    }
     delete victim;
 
     count -= 1;
@@ -140,6 +176,9 @@ public:
     {
       pop_front();
     }
+    first = nullptr;
+    last = nullptr;
+    count = 0;
   }
 
 private:
@@ -156,7 +195,6 @@ private:
   // EFFECTS:  copies all nodes from other to this
   void copy_all(const List<T> &other)
   {
-    assert(!(other.empty()));
     for (Node *np = other.first; np; np = np->next)
     {
       push_back(np->datum);
@@ -184,6 +222,10 @@ public:
   public:
     // This operator will be used to test your code. Do not modify it.
     // Requires that the current element is dereferenceable.
+
+    Iterator()
+        : node_ptr(nullptr) {}
+
     Iterator &operator--()
     {
       assert(node_ptr);
@@ -223,8 +265,6 @@ public:
     // construct an Iterator at a specific position
     Iterator(Node *p)
         : node_ptr(p) {}
-    Iterator()
-        : node_ptr(nullptr) {}
 
   }; // List::Iterator
   ////////////////////////////////////////
@@ -246,14 +286,57 @@ public:
   // EFFECTS: Removes a single element from the list container
   void erase(Iterator i)
   {
-    delete i.node_ptr;
+    assert(!(i.node_ptr == nullptr));
+
+    Node *remove = i.node_ptr;
+    Node *remove_next = remove->next;
+    Node *remove_prev = remove->prev;
+    if (remove_next != nullptr)
+    {
+      remove_next->prev = remove_prev;
+    }
+    else
+    {
+      last = remove_prev;
+    }
+
+    if (remove_prev != nullptr)
+    {
+      remove_prev->next = remove_next;
+    }
+    else
+    {
+      first = remove_next;
+    }
+
+    delete remove;
+    count -= 1;
   }
 
   // REQUIRES: i is a valid iterator associated with this list
   // EFFECTS: inserts datum before the element at the specified position.
   void insert(Iterator i, const T &datum)
   {
-    (i.node_ptr)->push_front(datum);
+    assert(!(i.node_ptr == nullptr));
+    Node *insert = new Node;
+    insert->datum = datum;
+
+    Node *curr = i.node_ptr;
+    Node *before = curr->prev;
+
+    insert->next = curr;
+    insert->prev = before;
+    curr->prev = insert;
+    if (before != nullptr)
+    {
+      before->next = insert;
+    }
+    else
+    {
+      first = insert;
+    }
+
+    count += 1;
   }
 
 }; // List
