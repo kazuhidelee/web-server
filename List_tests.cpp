@@ -54,8 +54,6 @@ TEST(recopying)
     ASSERT_EQUAL(list1.front(), 99);
     ASSERT_EQUAL(list1.back(), 103);
     ASSERT_EQUAL(list1.size(), 5);
-    list1.clear();
-    list2.clear();
 }
 
 TEST(pop)
@@ -107,7 +105,6 @@ TEST(operators)
         actual << *it << endl;
     }
     ASSERT_EQUAL(expected.str(), actual.str());
-    list.clear();
 }
 
 TEST(erase)
@@ -129,7 +126,6 @@ TEST(erase)
     list2.erase(i);
     ASSERT_TRUE(list2.empty());
     ASSERT_EQUAL(list2.size(), 0);
-    list.clear();
 }
 
 TEST(insert)
@@ -140,6 +136,5 @@ TEST(insert)
     list2.insert(i, 100);
     ASSERT_EQUAL(list2.front(), 100);
     ASSERT_EQUAL(list2.size(), 2);
-    list2.clear();
 }
 TEST_MAIN()
