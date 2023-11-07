@@ -7,6 +7,7 @@ CXX ?= g++
 # Compiler flags
 CXXFLAGS ?= --std=c++17 -Wall -Werror -pedantic -g -Wno-sign-compare -Wno-comment
 
+
 # Run a regression test
 test: List_compile_check.exe List_public_test.exe List_tests.exe
 	./List_compile_check.exe

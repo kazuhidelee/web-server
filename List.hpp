@@ -46,9 +46,6 @@ public:
     {
       return *this;
     }
-    first = nullptr;
-    last = nullptr;
-    count = 0;
 
     clear();
     copy_all(other);
@@ -59,7 +56,7 @@ public:
   // EFFECTS:  returns true if the list is empty
   bool empty() const
   {
-    return first == nullptr;
+    return first == nullptr && last == nullptr;
   }
 
   // EFFECTS: returns the number of elements in this List
@@ -176,9 +173,6 @@ public:
     {
       pop_front();
     }
-    first = nullptr;
-    last = nullptr;
-    count = 0;
   }
 
 private:
@@ -317,23 +311,43 @@ public:
   // EFFECTS: inserts datum before the element at the specified position.
   void insert(Iterator i, const T &datum)
   {
-    assert(!(i.node_ptr == nullptr));
+    // assert(!(i.node_ptr == nullptr));
     Node *insert = new Node;
     insert->datum = datum;
 
-    Node *curr = i.node_ptr;
-    Node *before = curr->prev;
-
-    insert->next = curr;
-    insert->prev = before;
-    curr->prev = insert;
-    if (before != nullptr)
+    if (i.node_ptr != nullptr)
     {
-      before->next = insert;
+      Node *curr = i.node_ptr;
+      Node *before = curr->prev;
+      insert->next = curr;
+      insert->prev = before;
+      curr->prev = insert;
+      if (before != nullptr)
+      {
+        before->next = insert;
+      }
+      else
+      {
+        insert->prev = nullptr;
+        first = insert;
+      }
     }
     else
     {
-      first = insert;
+      if (last != nullptr)
+      {
+        last->next = insert;
+        insert->prev = last;
+        last = insert;
+        insert->next = nullptr;
+      }
+      else
+      {
+        first = insert;
+        last = insert;
+        insert->next = nullptr;
+        insert->prev = nullptr;
+      }
     }
 
     count += 1;
