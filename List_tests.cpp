@@ -3,8 +3,6 @@
 
 using namespace std;
 
-// Add your test cases here
-
 TEST(test_push_front)
 {
     // push_front to an empty list
@@ -25,6 +23,7 @@ TEST(test_push_back)
 
 TEST(test_push_front_mult)
 {
+    // push front
     List<int> list;
     list.push_front(100);
     ASSERT_EQUAL(list.front(), 100);
@@ -363,5 +362,81 @@ TEST(erase_all)
     ASSERT_EQUAL(list1.front(), 300);
     list1.erase(list1.begin());
     ASSERT_TRUE(list1.empty());
+}
+
+TEST(iterator_copy)
+{
+    List<int> list1;
+    list1.push_back(100);
+    list1.push_back(200);
+
+    List<int>::Iterator iter1 = list1.begin();
+    List<int>::Iterator iter2 = iter1;
+    ASSERT_EQUAL(*iter1, *iter2);
+
+    List<int> list2;
+    list2.push_back(300);
+    List<int>::Iterator iter3 = list2.begin();
+    iter3 = iter1;
+    ASSERT_EQUAL(*iter1, *iter3);
+}
+
+TEST(char_list)
+{
+    List<char> list1;
+    list1.push_back('a');
+    list1.push_back('b');
+    ASSERT_EQUAL(list1.front(), 'a');
+    ASSERT_EQUAL(list1.back(), 'b');
+}
+
+TEST(clear_and_add)
+{
+    List<int> list1;
+    list1.push_back(100);
+    list1.push_back(200);
+    list1.push_back(300);
+    list1.clear();
+    ASSERT_TRUE(list1.empty());
+    ASSERT_EQUAL(list1.size(), 0);
+}
+
+TEST(erase_with_while)
+{
+    List<int> list;
+    list.push_back(100);
+    list.push_back(101);
+    list.push_back(102);
+    list.push_back(100);
+    list.push_back(101);
+    list.push_back(102);
+    while (!list.empty())
+    {
+        list.pop_back();
+    }
+    ASSERT_EQUAL(list.size(), 0);
+    ASSERT_TRUE(list.empty());
+}
+
+TEST(erase_middle)
+{
+    List<int> list;
+    list.push_back(100);
+    list.push_back(101);
+    list.push_back(102);
+    List<int>::Iterator i = list.begin();
+    ++i;
+    list.erase(i);
+    ostringstream expected;
+    expected << "100\n"
+             << "102\n";
+    ostringstream actual;
+    for (List<int>::Iterator it = list.begin(); it != list.end(); ++it)
+    {
+        actual << *it << endl;
+    }
+    ASSERT_EQUAL(expected.str(), actual.str());
+    ASSERT_FALSE(list.empty());
+    ASSERT_EQUAL(list.size(), 2);
 }
 TEST_MAIN()
