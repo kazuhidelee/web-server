@@ -2,7 +2,7 @@
 Created a web server for an office hours queue.
 Made a REST API that reads requests from stdin and writes responses to stout. 
 Requests and responses are formatted using a simplified subset of real HTTP
-<img width="466" alt="Screenshot 2024-02-06 at 12 12 20 AM" src="https://github.com/kazuhidelee/web-server/assets/122251831/babdfee9-11e0-424d-b370-10f7081ccf4f">
+<img width="653" alt="Screenshot 2024-02-06 at 12 17 24 AM" src="https://github.com/kazuhidelee/web-server/assets/122251831/727e7e29-f1c6-4624-b542-46ffdf2df397">
 
 ## Process
 The client’s web browser sends an HTTP request to the server. The request might look like this:
@@ -22,7 +22,7 @@ Fianlly, the client receives the response and updates the web page, showing the 
 <br>
 ``` make api.exe ```
 <br>
-``` python3 server,py ```
+``` python3 server.py ```
 
 ## What I Learned
 - Linked Lists
